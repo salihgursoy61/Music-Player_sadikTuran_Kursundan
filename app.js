@@ -19,49 +19,49 @@ window.addEventListener("load", () => {
   let music = player.getMusic();
   displayMusic(music);
 });
-function displayMusic(music) {
+const displayMusic = (music) => {
   title.innerText = music.getName();
   singer.innerText = music.singer;
   image.src = "img/" + music.img;
   audio.src = "mp3/" + music.file;
-}
+};
 
 play.addEventListener("click", () => {
   const isMusicPlay = container.classList.contains("playing");
   isMusicPlay ? pauseMusic() : playMusic();
 });
-function pauseMusic() {
+const pauseMusic = () => {
   container.classList.remove("playing");
   play.classList = "fa-solid fa-play";
   audio.pause();
-}
-function playMusic() {
+};
+const playMusic = () => {
   container.classList.add("playing");
   play.classList = "fa-solid fa-pause";
   audio.play();
-}
+};
 
 prev.addEventListener("click", () => {
   prevMusic();
 });
 
-function prevMusic() {
+const prevMusic = () => {
   player.prev();
   let music = player.getMusic();
   displayMusic(music);
   playMusic();
-}
+};
 
 next.addEventListener("click", () => {
   nextMusic();
 });
 
-function nextMusic() {
+const nextMusic = () => {
   player.next();
   let music = player.getMusic();
   displayMusic(music);
   playMusic();
-}
+};
 const calculeteTime = (toplamSaniye) => {
   const dakika = Math.floor(toplamSaniye / 60);
   const saniye = Math.floor(toplamSaniye % 60);
@@ -77,4 +77,9 @@ audio.addEventListener("loadedmetadata", () => {
 audio.addEventListener("timeupdate", () => {
   progressBar.value = Math.floor(audio.currentTime);
   currentTime.textContent = calculeteTime(progressBar.value);
+});
+
+progressBar.addEventListener("input", () => {
+  currentTime.textContent = calculeteTime(progressBar.value);
+  audio.currentTime = progressBar.value;
 });
